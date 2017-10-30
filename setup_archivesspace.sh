@@ -48,8 +48,26 @@ chmod +x setup-database.sh
 cd /aspace/archivesspace
 chmod +x archivesspace.sh
 
-echo "Import UTC db"
-mysql --user=as --password=as123 archivesspace < /vagrant/utc.sql
+#echo "Check for utc.sql.gz"
+#gz_dump="/vagrant/utc.sql.gz"
+#if [ -f "$gz_dump" ]
+#then
+	#printf "Extracting gz file...\n";
+        gunzip -k /vagrant/*.gz
+#else
+	#printf "No DB.gz file found.\n";
+#fi
+
+#echo "Check for UTC db"
+#db_dump="/vagrant/utc.sql"
+#if [ -f "$db_dump" ]
+#then
+	#printf "Loading DB...\n";
+        #mysql --user=as --password=as123 archivesspace < /vagrant/utc.sql
+        mysql --user=as --password=as123 archivesspace < /vagrant/*.sql
+#else
+	#printf "No DB file found.\n";
+#fi
 
 echo "Setting up database"
 scripts/setup-database.sh
@@ -69,3 +87,4 @@ echo "Starting ArchivesSpace"
 echo "All done!"
 echo "Set up ArchivesSpace defaults (or import an ASpace mysql dump) and point your host machine's browser to http://localhost:8080 to begin using ArchivesSpace"
 echo "Use vagrant ssh to access the virtual machine"
+echo "Use vagrant halt to shutdown instance"
