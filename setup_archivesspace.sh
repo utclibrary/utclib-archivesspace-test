@@ -16,14 +16,6 @@ cd /aspace
 unzip -o /aspace/zips/archivesspace-v2.2.0.zip
 chown -R vagrant:vagrant /aspace
 
-# Setting up ArchivesSpace from source
-#DEVDBURL='AppConfig[:db_url] = "jdbc:mysql://localhost:3306/aspacedev?user=as\&password=as123\&useUnicode=true\&characterEncoding=UTF-8"'
-#cd /aspace/source/archivesspace/common/config
-#echo $DEVDBURL >> config.rb
-#cd /aspace/source/archivesspace
-#build/run bootstrap
-#build/run db:migrate
-
 # These variables will be used to edit the ArchivesSpace config file to use the correct database URL and setup our plugins
 DBURL='AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as\&password=as123\&useUnicode=true\&characterEncoding=UTF-8"'
 BROWSEURL='AppConfig[:browse_page_db_url] = "jdbc:mysql://localhost:3306/browse_pages?user=as\&password=as123\&useUnicode=true\&characterEncoding=UTF-8"'
