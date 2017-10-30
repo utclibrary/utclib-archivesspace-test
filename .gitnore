@@ -1,2 +1,2 @@
 .vagrant/*
-/db/*.sql
+*.sql

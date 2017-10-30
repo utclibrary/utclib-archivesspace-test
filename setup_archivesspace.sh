@@ -49,7 +49,7 @@ cd /aspace/archivesspace
 chmod +x archivesspace.sh
 
 echo "Import UTC db"
-mysql --user=as --password=as123 archivesspace < /vagrant/db/utc.sql
+mysql --user=as --password=as123 archivesspace < /vagrant/utc.sql
 
 echo "Setting up database"
 scripts/setup-database.sh
