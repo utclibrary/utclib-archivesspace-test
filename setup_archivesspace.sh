@@ -11,9 +11,9 @@ echo "Downloading latest ArchivesSpace release"
 mkdir /aspace
 mkdir /aspace/zips
 cd /aspace/zips
-wget https://github.com/archivesspace/archivesspace/releases/download/v2.2.0/archivesspace-v2.2.0.zip
+wget https://github.com/archivesspace/archivesspace/releases/download/v2.2.0/archivesspace-v2.5.2.zip
 cd /aspace
-unzip -o /aspace/zips/archivesspace-v2.2.0.zip
+unzip -o /aspace/zips/archivesspace-v*.zip
 chown -R vagrant:vagrant /aspace
 
 # These variables will be used to edit the ArchivesSpace config file to use the correct database URL and setup our plugins
