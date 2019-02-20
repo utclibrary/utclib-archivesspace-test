@@ -1,0 +1,14 @@
+[Unit]
+Description=ArchivesSpace Application
+After=network.target vasd.service
+[Service]
+Type=simple
+ExecStart=/opt/archivesspace/archivesspace.sh start
+ExecStop=/opt/archivesspace/archivesspace.sh stop
+PIDFile=/opt/archivesspace/archivesspace.pid
+User=root
+Group=root
+KillMode=process
+TimeoutSec=infinity
+[Install]
+WantedBy=multi-user.target
