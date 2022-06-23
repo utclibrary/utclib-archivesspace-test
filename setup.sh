@@ -40,6 +40,7 @@ mysql -u root archivesspace < /vagrant/utc.sql
 echo "Setting up database"
 /opt/archivesspace/scripts/setup-database.sh
 #fi
+systemctl restart mariadb
 # create systemd for archivesspace
 cp -u /vagrant/archivesspace.service /etc/systemd/system/archivesspace.service
 systemctl enable archivesspace.service
