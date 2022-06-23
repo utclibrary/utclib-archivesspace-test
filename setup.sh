@@ -46,6 +46,7 @@ cp -u /vagrant/archivesspace.service /etc/systemd/system/archivesspace.service
 systemctl enable archivesspace.service
 systemctl start archivesspace.service
 systemctl status archivesspace.service
+sudo setenforce 0
 # finish messages
 echo "USE"
 echo "http://findingaids.local:8089/ – the backend"
