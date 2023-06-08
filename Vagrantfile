@@ -13,9 +13,9 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   #config.vm.box = "centos/7"
-  config.vm.define "centos7" do |box|
-    box.vm.box = "centos/7"
-    box.vm.box_version = "2004.01"
+  config.vm.define "oracle9" do |box|
+    config.vm.box = "oraclebase/oracle-9"
+    box.vm.box_version = "2023.01.18"
     box.vbguest.installer_options = { allow_kernel_upgrade: true }
   end
 
@@ -42,6 +42,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8443, host: 8443
   config.vm.network "forwarded_port", guest: 8983, host: 8983
   config.vm.network "forwarded_port", guest: 8082, host: 8082
+  config.vm.network "forwarded_port", guest: 8090, host: 8090
   #config.vm.network "public_network", ip: "10.52.80.3", mac: "F8B156C6831E"
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
