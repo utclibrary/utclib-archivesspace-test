@@ -2,18 +2,18 @@
 
 # Update packages
 echo "Running updates..."
-yum -y update
+dnf -y update
 echo "Installing epel ..."
-yum -y install epel-release yum-utils
+dnf -y install epel-release yum-utils
 echo "Installing misc ..."
-yum -y install vim curl unzip wget java-1.8.0-openjdk
+dnf -y install vim curl unzip wget java-1.8.0-openjdk nginx
 #sudo curl -Oq https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.29/mysql-connector-java-8.0.29.jar
 cp /vagrant/mysql-connector-java-8.0.30.jar /opt/archivesspace/lib/
 rm -rf /opt/archivesspace/data/indexer_state
 rm -rf /opt/archivesspace/data/indexer_pui_state
 #download and install Apache Solr
 ## echo "Installing Apache Solr ..."
-yum -y install lsof
+dnf -y install lsof
 wget -c https://archive.apache.org/dist/lucene/solr/8.10.0/solr-8.10.0.tgz
 sudo tar xzf solr-8.10.0.tgz solr-8.10.0/bin/install_solr_service.sh --strip-components=2
 sudo ./install_solr_service.sh solr-8.10.0.tgz
