@@ -1,56 +1,49 @@
 #!/usr/bin/env bash
 
-# Update packages
-echo "Running updates..."
+# Update and install packages
 dnf -y update
-echo "Installing epel ..."
-dnf -y install epel-release yum-utils
-echo "Installing misc ..."
-dnf -y install vim curl unzip wget java-1.8.0-openjdk nginx
-#sudo curl -Oq https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.29/mysql-connector-java-8.0.29.jar
+dnf -y install epel-release yum-utils vim curl unzip wget java-1.8.0-openjdk lsof mysql-server
+
 cp /vagrant/mysql-connector-java-8.0.30.jar /opt/archivesspace/lib/
+
 rm -rf /opt/archivesspace/data/indexer_state
 rm -rf /opt/archivesspace/data/indexer_pui_state
 #download and install Apache Solr
-## echo "Installing Apache Solr ..."
-dnf -y install lsof
-wget -c https://archive.apache.org/dist/lucene/solr/8.10.0/solr-8.10.0.tgz
-sudo tar xzf solr-8.10.0.tgz solr-8.10.0/bin/install_solr_service.sh --strip-components=2
-sudo ./install_solr_service.sh solr-8.10.0.tgz
-##
-sudo mkdir -p /opt/solr/server/solr/configsets/archivesspace/conf
-##
-cp /vagrant/schema.xml /opt/solr/server/solr/configsets/archivessapce/conf
-cp /vagrant/solrconfig.xml /opt/solr/server/solr/configsets/archivessapce/conf
-touch cp /opt/solr/server/solr/configsets/archivessapce/conf/stopwords.txt
-touch cp /opt/solr/server/solr/configsets/archivessapce/conf/synonyms.txt
-/opt/solr/bin/solr start
-/opt/solr/bin/solr create -c archivessapce -d archivesspace
+wget -c https://archive.apache.org/dist/lucene/solr/8.11.2/solr-8.11.2.tgz
+cp /vagrant/solr-8.11.2.tgz .
+
+tar xzf solr-8.11.2.tgz solr-8.11.2/bin/install_solr_service.sh --strip-components=2
+./install_solr_service.sh solr-8.11.2.tgz -f
+
+cp -r /vagrant/conf /opt/solr-8.11.2/server/solr/configsets/archivesspace/
+
+#chown -R solr:solr /opt/solr-8.11.2/server/solr/configsets/archivesspace/conf
+#service solr stop
+
+#sudo -u solr /opt/solr/bin/solr start
+sudo -u solr /opt/solr/bin/solr create -c archivesspace -d archivesspace -force
+#sudo -u solr /opt/solr/bin/solr stop
+
+
+#service solr start
 service solr status
-#systemctl start httpd
+
 #echo "Installing MariaDB ..."
-#wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-#chmod +x mariadb_repo_setup
-#sudo ./mariadb_repo_setup
-#sudo yum install MariaDB-server
-#yum -y install mariadb-server
-#systemctl start mariadb
-#systemctl status mariadb
+systemctl enable --now mysqld
+systemctl status mysqld
  # check to see if archivesspace database exist - if not create and import
 ## #if ! mysql -u root -e 'use archivesspace'; then
-#mysql -u root -e "create database archivesspace default character set utf8mb4"
- #mysql -u root archivesspace < /vagrant/utc.sql;
-#mysql -u root -e  "grant all on archivesspace.* to 'as'@'localhost' identified by 'as123'"
-#mysql -u root archivesspace < /vagrant/utc.sql
+mysql -u root -e "create database archivesspace default character set utf8mb4"
+mysql -u root archivesspace < /vagrant/utc.sql;
+mysql -u root -e "CREATE USER 'as'@'localhost' identified by 'as123'"
+mysql -u root -e "GRANT ALL PRIVILEGES on archivesspace.* to 'as'@'localhost' WITH GRANT OPTION"
+mysql -u root -e "FLUSH PRIVILEGES"
 echo "Setting up database"
 /opt/archivesspace/scripts/setup-database.sh
 #fi
-#systemctl restart mariadb
-# create systemd for archivesspace
-cp -u /vagrant/archivesspace.service /etc/systemd/system/archivesspace.service
-systemctl enable archivesspace.service
-systemctl start archivesspace.service
-systemctl status archivesspace.service
+systemctl restart mysqld
+systemctl status mysqld
+/opt/archivesspace/archivesspace.sh start
 sudo setenforce 0
 # finish messages
 echo "USE"
