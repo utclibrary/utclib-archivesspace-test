@@ -1,5 +1,6 @@
 # utclib-archivesspace-test
 UTC ArchivesSpace Vagrant Setup
+note: https://github.com/dheerapat/vagrant-vbguest may need to be installed locally
 
 1. Install VirtualBox https://www.virtualbox.org/wiki/Downloads (no later than 5.1)
 1. Install Vagrant https://www.vagrantup.com/
