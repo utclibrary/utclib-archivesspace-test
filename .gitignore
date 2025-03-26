@@ -1,3 +1,5 @@
 *.vagrant
 *.sql
 *.jar
+*.tgz
+vagrant-vbguest/

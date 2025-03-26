@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   #config.vm.box = "centos/7"
   config.vm.define "oracle9" do |box|
     config.vm.box = "oraclebase/oracle-9"
-    box.vm.box_version = "2023.01.18"
+    box.vm.box_version = "2024.01.18"
     box.vbguest.installer_options = { allow_kernel_upgrade: true }
   end
 
@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
-  config.vm.hostname = "findingaids.local"
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -46,8 +45,8 @@ Vagrant.configure("2") do |config|
   #config.vm.network "public_network", ip: "10.52.80.3", mac: "F8B156C6831E"
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.56.11"
-
+  config.vm.network "private_network", ip: "192.168.56.15"
+  config.vm.hostname = "findingaids.local"
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
@@ -57,11 +56,9 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "~/archivesspace/", "/opt/archivesspace/"
+  config.vm.synced_folder "~/archivesspace_351/", "/opt/archivesspace/"
   #config.vm.synced_folder "~/archivesspace-utc/plugins/local/", "/opt/archivesspace/plugins/local/"
-  config.vm.synced_folder "~/archivesspace-utc/config/", "/opt/archivesspace/config/"
-  # config.vm.synced_folder "~/archivesspace-utc/config/", "/opt/archivesspace/config/"
-  # config.vm.synced_folder "~/archivesspace-utc/plugins/", "/opt/archivesspace/plugins/"
+  #config.vm.synced_folder "~/archivesspace-utc/config/", "/opt/archivesspace/config/"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -72,7 +69,7 @@ Vagrant.configure("2") do |config|
   # vb.gui = true
   #
   # Customize the amount of memory on the VM:
-     vb.memory = "2048"
+     vb.memory = "4056"
   end
   #
   # View the documentation for the provider you are using for more
