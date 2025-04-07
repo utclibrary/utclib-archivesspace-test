@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-
+solr_version="9.4.1"
 # Update and install packages
 dnf -y update
-dnf -y install epel-release yum-utils vim curl unzip wget java-1.8.0-openjdk lsof mysql-server
+dnf -y install epel-release yum-utils vim curl unzip wget java-17-openjdk lsof mysql-server
 
 cp /vagrant/mysql-connector-java-8.0.30.jar /opt/archivesspace/lib/
 # echo '192.168.56.15 findingaids.local' >> /etc/hosts
@@ -10,19 +10,22 @@ rm -rf /opt/archivesspace/data/indexer_state
 rm -rf /opt/archivesspace/data/indexer_pui_state
 ##download and install Apache Solr
 #wget -c https://archive.apache.org/dist/lucene/solr/8.11.2/solr-8.11.2.tgz
-cp /vagrant/solr-8.11.2.tgz .
+cp /vagrant/solr-$solr_version.tgz .
 #
-tar xzf solr-8.11.2.tgz solr-8.11.2/bin/install_solr_service.sh --strip-components=2
-./install_solr_service.sh solr-8.11.2.tgz -f
+tar xzf solr-$solr_version.tgz solr-$solr_version/bin/install_solr_service.sh --strip-components=2
+./install_solr_service.sh solr-$solr_version.tgz
 #
-cp -r /vagrant/conf /opt/solr-8.11.2/server/solr/configsets/archivesspace/
+cp -R /vagrant/conf /opt/solr-$solr_version/server/solr/configsets/archivesspace/
 
-##chown -R solr:solr /opt/solr-8.11.2/server/solr/configsets/archivesspace/conf
+chown -R solr:solr /opt/solr-$solr_version/server/solr/configsets/archivesspace/conf
 service solr stop
 #
 sudo -u solr /opt/solr/bin/solr start
-sudo -u solr /opt/solr/bin/solr create -c archivesspace -d archivesspace -force
+sudo -u solr /opt/solr/bin/solr create -c archivesspace -d archivesspace
+chown -R solr:solr /opt/solr-$solr_version/server/solr/configsets/archivesspace/conf
 ##sudo -u solr /opt/solr/bin/solr stop
+sed 's/#SOLR_JETTY_HOST="127.0.0.1"/SOLR_JETTY_HOST="0.0.0.0"/' /opt/solr-$solr_version/bin/solr.in.sh
+service jetty restart
 #
 #
 service solr start
